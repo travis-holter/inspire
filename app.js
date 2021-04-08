@@ -38,13 +38,31 @@ function getQuote() {
         quote.innerHTML = `<p>${response[0].content.rendered}</p>`
         author.innerHTML = `<p>${response[0].title.rendered}</p>`
     })
-}
+};
 
 // Weather stuff
+const weather_error = document.getElementById('weather-error');
+const weather_icon = document.getElementById('weather-icon');
+const temp_value = document.getElementById('temp-value');
+const temp_description = document.getElementById('temp-description');
+const loc = document.getElementById('loc');
 
+// I have my API key in a .gitignore file, you can uncomment the next line to use a publicly available one, or use your own.
+// const key = "82005d27a116c2880c8f0fcb866998a0";
+
+function getWeather(zip = 83642) {
+    fetch(`https://api.openweathermap.org/data/2.5/weather?zip=${zip}&appid=${key}`)
+    .then(result => result.json())
+    .then(response => {
+        temp_value.innerHTML = `<p>${response.main.temp}</p>`;
+        temp_description.innerHTML = `<p>${response.weather[0].description}</p>`;
+        loc.innerHTML = `<p>${response.name}</p>`;
+    })
+};
 
 // Invoke stuff
 updateClock(); 
 setInterval('updateClock()', 1000 );
 getBackground();
 getQuote();
+getWeather();
